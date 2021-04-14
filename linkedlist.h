@@ -4,26 +4,65 @@
 // #include
 // #include <vector>
 // using namespace std;
+//Esto lo hizo Diego Alejandro Maizo Rangel ->
+template <typename T>
+class Node
+{
+  public: 
+  T datos;
+  Node* next;
+  Node (){
+    ident=0;
+    datos=0; 
+    next = NULL;
+  };
+  Node(T x, T y){
+    ident=x;
+    datos=y;
+    next= NULL;
+  };
+}
 
 template <typename T>
 class LinkedList
 {
-  private:
-  // members here
   public:
+    Node* head, *tail;
+    LinkedList()
+    {
+      head= NULL;
+      tail=NULL;
+    };
     T front(); // Retorna el elemento al comienzo
     T back(); // Retorna el elemento al final
-    void push_front(T &elem); // Agrega un elemento al comienzo 
-    void push_back(T &elem); // Agrega un elemento al final
-    void pop_front(); // Remueve el elemento al comienzo pero no lo retorna
-    void pop_back(); // Remueve el elemento al final pero no lo retorna
-    T operator[](size_t pos); // Retorna el elemento en la posición indicada
+    void push_front(T datos); // Agrega un elemento al comienzo 
+    void push_back(T datos); // Agrega un elemento al final
+    void pop_front(); // Remueve el elemento al comienzo
+    void pop_back(); // Remueve el elemento al final
+    T operator[](int); // Retorna el elemento en la posición indicada
     bool empty(); // Retorna si la lista está vacía o no
-    size_t size(); // Retorna el tamaño de la lista 
-    void clear(); // Elimina todos los elementos de la lista
+    int size(); // Retorna el tamaño de la lista 
+    void clear_first(); // Elimina el primer elemento
+    void clear_last(); //Elimina el ultimo 
     void sort(); // Ordena la lista
     void reverse(); // Revierte la lista
 };
+
+
+template <typename T>
+void LinkedList<T>::empty(){
+  if (head==NULL && tail==NULL){
+    return true
+  } else {
+    return fals
+  }
+}
+
+
+template <typename T>
+void LinkedList
+
+
 
 // Comments #2
 template <typename T>
@@ -39,4 +78,31 @@ T LinkedList<T>::back()
 
 }
 
+//eliminar primero
+template <typename T>
+void  LinkedList<T>::clear_first()
+{
+  Node* temp=new Node;
+  temp=head;
+  head=head->next;
+  delete temp;
+}
+
+//eliminar ultimo
+template <typename T>
+void  LinkedList<T>::clear_last()
+{
+  Node *actual= new Node;
+  Node *previo= new Node;
+  actual=head;
+  while (actual->next!=NULL){
+    previo=actual;
+    actual=actual->next;
+  }
+  tail=previo;
+  previo->next=NULL
+  delete actual;
+}
+
 #endif
+
