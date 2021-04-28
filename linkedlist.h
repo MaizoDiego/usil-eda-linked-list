@@ -41,7 +41,10 @@ class LinkedList
     void sort(); // Ordena la lista
     void reverse(); // Revierte la lista
 
-    ostream &recorrer(ostream &os);
+    ostream &recorrer_imprimiendo(ostream &os);
+    template <typename F>
+    void recorrer(F &func); // Buscar funciones Lambda
+                            // Buscar object functions
 };
 
 //forma 1
@@ -76,7 +79,7 @@ void LinkedList<T>::internal_insert(RPNODE pPrev, T &elem)
 }
 
 template <typename T>
-ostream &LinkedList<T>::recorrer(ostream &os)
+ostream &LinkedList<T>::recorrer_imprimiendo(ostream &os)
 {
   auto pNode = m_pRoot;
   while( pNode != nullptr )
@@ -87,6 +90,18 @@ ostream &LinkedList<T>::recorrer(ostream &os)
   return os; 
 }
 
+template <typename T>
+template <typename F>
+void &LinkedList<T>::recorrer(F &func)
+{
+  auto pNode = m_pRoot;
+  while( pNode != nullptr )
+  {
+      func( pNode->getData() );
+      pNode = pNode->getpNext();
+  }
+  return os; 
+}
 //forma 1
 template <typename T>
 T &LinkedList<T>::operator[](size_t pos)
