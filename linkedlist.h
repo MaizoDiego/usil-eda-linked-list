@@ -1,8 +1,10 @@
 #ifndef __LINKEDLIST_H__
 #define __LINKEDLIST_H__
 
+#include <iostream>
+#include <functional>
 #include <stdexcept>
-#include "typedef.h"
+#include "type.h"
 using namespace std;
 
 //REALIZADO POR DIEGO ALEJANDRO MAIZO RANGEL
@@ -18,6 +20,8 @@ class LinkedList
 {
   private:
   Node<T> *head, *tail; //Se crean 2 punteros de tipo node
+  typedef Node<T> *PNODE;
+  typedef PNODE &RPNODE;
   T1 tam; //variable para retornar el tamaño
   public:
     LinkedList(){
@@ -31,17 +35,42 @@ class LinkedList
     void push_back(T &elem); // Agrega un elemento al final_LISTO
     void pop_front(); // Remueve el elemento al comienzo pero no lo retorna
     void pop_back(); // Remueve el elemento al final pero no lo retorna
-    T operator[](size_t pos); // Retorna el elemento en la posición indicada
+    void insert(T &elem);
+    void insert2 (T &elem);
+    void internal_insert(RPNODE pPrev, T &elem);
+    T &operator[](size_t pos); // Retorna el elemento en la posición indicada
     bool empty(); // Retorna si la lista está vacía o no
     size_t size(ostream &os); // Retorna el tamaño de la lista 
     void clear(); // Elimina todos los elementos de la lista
     void sort(); // Ordena la lista
     void reverse(); // Revierte la lista
     void display(ostream &os); //listo
+    ostream &recorrer_imprimiendo(ostream &os);
+    template <typename F>
+    T recorrer(F &func);
 };
 
 template <typename T>
-T LinkedList<T>::front(){
+T &LinkedList<T>::operator[](size_t pos)
+{
+    Node<T> *ptr=head;
+    T1 x=0;
+    while (x<pos){
+      ptr=ptr->next;
+      x++;
+    }
+    return ptr->data;
+}
+
+template <typename T>
+void LinkedList<T>::sort()
+{
+
+
+}
+template <typename T>
+T LinkedList<T>::front()
+{
   Node <T>* prm=head; //se crea nuevo puntero que apunta a lo que apunta head
   if (empty()){
     throw out_of_range ("El primer valor es NULL");
@@ -56,7 +85,8 @@ T LinkedList<T>::front(){
 }
 
 template <typename T>
-T LinkedList<T>::back(){
+T LinkedList<T>::back()
+{
   Node<T> *ult=tail; //se crea nuevo puntero
     if (empty()){
     throw out_of_range ("El utlimo valor es NULL");
@@ -74,7 +104,8 @@ T LinkedList<T>::back(){
 
 //se encarga de mostrar la lista 
 template <typename T>
-void LinkedList<T>::display(ostream &os){
+void LinkedList<T>::display(ostream &os)
+{
   Node<T> *temp;
   if (empty()){
     os<<"La Lista Enlazada es vacia {No hay elementos en ella}"<<endl;
@@ -89,7 +120,8 @@ void LinkedList<T>::display(ostream &os){
 }
 
 template <typename T>
-void LinkedList<T>::pop_back(){
+void LinkedList<T>::pop_back()
+{
   if (empty()){
     cout << "La lista está vacia \n";
   } else if(tail==head){
@@ -112,7 +144,8 @@ void LinkedList<T>::pop_back(){
 }
 
 template <typename T>
-void LinkedList<T>::pop_front(){
+void LinkedList<T>::pop_front()
+{
   if (empty()){
     cout << "La lista está vacia \n";
   } else if(head==tail){ 
@@ -179,13 +212,15 @@ void LinkedList<T>::push_back(T &elem){
 }
 
 template <typename T>
-size_t LinkedList<T>::size(ostream &os){
+size_t LinkedList<T>::size(ostream &os)
+{
   os<<" \nEl tamaño de la ListaEnlazada es: "<<tam<<endl;
   return tam; 
 }
 
 template <typename T>
-bool LinkedList<T>::empty(){
+bool LinkedList<T>::empty()
+{
   if (head==nullptr && tail==nullptr){
     return true;
   } else {
@@ -194,7 +229,8 @@ bool LinkedList<T>::empty(){
 }
 
 template <typename T>
-void LinkedList<T>::reverse(){
+void LinkedList<T>::reverse()
+{
   Node <T>*prnd=nullptr;
   Node <T>*crnd, *nxtnd;
   crnd=nxtnd=head;
@@ -206,6 +242,40 @@ void LinkedList<T>::reverse(){
     crnd=nxtnd;
   } 
   head=prnd;
+}
+
+template <typename T>
+void LinkedList<T>::insert(T &elem)
+{
+  Node <T> **numw=&head;
+  Node <T> *act=head;
+  while (*numw && elem > (*numw)->data)
+  { act=act->next;
+    numw =&(*numw)->next; }
+  Node <T>*nuew=new Node<T>();
+  nuew->data=elem;
+  nuew->next=*numw;
+  *numw=nuew;
+}
+
+template <typename T>
+ostream &LinkedList<T>::recorrer_imprimiendo(ostream &os)
+{
+  if(empty())
+  {  os<<"La lista está vacia"<<endl; }
+  else{
+  auto pNode = head;
+  while( pNode != nullptr )
+  {os << pNode->data << endl;
+      pNode = pNode->next; }
+  }
+  return os; 
+}
+
+template <typename T>
+ostream &operator<<(ostream &os, LinkedList<T> &list)
+{
+  return list.recorrer_imprimiendo(os);
 }
 
 #endif
