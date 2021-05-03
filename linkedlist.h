@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <functional>
+#include <cmath>
 #include <stdexcept>
 #include "type.h"
 using namespace std;
@@ -51,6 +52,12 @@ class LinkedList
 };
 
 template <typename T>
+void LinkedList<T>::sort(){
+Node <T> *t;
+}
+
+
+template <typename T>
 T &LinkedList<T>::operator[](size_t pos)
 {
     Node<T> *ptr=head;
@@ -62,12 +69,12 @@ T &LinkedList<T>::operator[](size_t pos)
     return ptr->data;
 }
 
-template <typename T>
+/*template <typename T>
 void LinkedList<T>::sort()
 {
 
 
-}
+}*/
 template <typename T>
 T LinkedList<T>::front()
 {
@@ -256,6 +263,7 @@ void LinkedList<T>::insert(T &elem)
   nuew->data=elem;
   nuew->next=*numw;
   *numw=nuew;
+  tam++;
 }
 
 template <typename T>
